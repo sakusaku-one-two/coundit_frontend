@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "../ui/button"
-import { useUserState } from "./loginContext"
-
+import { useUserState } from '@/components/layout/LoginContext'
 // フォームのスキーマを定義します
 const formSchema = z.object({
   // メールアドレスのフィールドを定義します
