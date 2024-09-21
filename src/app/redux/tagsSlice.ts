@@ -3,11 +3,9 @@ import { PayloadAction } from '@reduxjs/toolkit';
 
 import useEndPoint, { FetchData } from '../apis/fetchHooks';
 import { TagEndPoints } from '../consts/url';
-import { json } from 'stream/consumers';
-import { stat } from 'fs';
 
-//タグの型を定義
-interface Tag {
+//タグの型を定義 
+export interface Tag {
     id:number;
     name:string;
 }
