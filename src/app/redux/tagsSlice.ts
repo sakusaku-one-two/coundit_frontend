@@ -82,6 +82,13 @@ const tagsSlice = createSlice({
             state.status = 'failed';//タグ作成失敗
             state.error = action.error.message || 'Failed to create tag';//エラーメッセージを更新
         })
+        .addCase(deleteTag.pending,(state) =>{
+            state.status = 'loading';//タグの削除中
+        })
+        .addCase(deleteTag.rejected,(state,action) =>{
+            state.status = 'failed';//タグの削除失敗
+            state.error = action.error.message || 'Failed to delete';//エラーメッセージを更新
+        });
     }
 });
 
