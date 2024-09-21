@@ -84,6 +84,24 @@ const articlesSlice = createSlice({
                 state.status = 'failed';//作成の失敗
                 state.error = action.error.message || 'Failed to create article';//エラーメッセージを更新
             })
-            .addCase()
+            .addCase(updateArticle.pending,(state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateArticle.fulfilled,(state,action:PayloadAction<Article>) => {
+                state.status = 'succeeded';
+                const updatedArticle:Article = action.payload;
+                const index:number  = state.articles.findIndex(article => article.id === updatedArticle.id);
+                if (index !== -1) {
+                    state.articles[index] = updatedArticle;
+                }
+            
+            })
+            .addCase(updateArticle.rejected,(state,action) => {
+                state.status = 'failed';
+                state.error = action.error.message || 'Failed to update article';//エラーメッセージを更新
+            });
     }
-})
+});
+
+//記事のれでゅーさをエクスポート
+export default articlesSlice.reducer;
