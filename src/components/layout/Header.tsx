@@ -2,7 +2,8 @@
 import React, { SyntheticEvent,useState } from 'react'
 import { Button } from '../ui/button';
 import Login from './Login';
-import { useUserState } from './loginContext';
+import { useUserState } from './LoginContext';
+
 const Header:React.FC = () => {
 
     const { userName} = useUserState();
