@@ -1,4 +1,4 @@
-
+"use client";
 import GetUrl from "../consts/url";
 
 export const TYPES = {
@@ -19,7 +19,7 @@ export interface FetchData {
 
 
 
-const useEndPoint = async(fetchSet:FetchData) => {
+const fromEndPoint = async(fetchSet:FetchData) => {
    const {endpoint,type,body} = fetchSet;
 
    try {
@@ -28,6 +28,7 @@ const useEndPoint = async(fetchSet:FetchData) => {
             headers: {
                 'Content-Type':'application/json',
             },
+            credentials: 'include',//cookieを含める設定
             body: body? JSON.stringify(body) : undefined,
         });
 
@@ -45,4 +46,4 @@ const useEndPoint = async(fetchSet:FetchData) => {
 
 };
 
-export default useEndPoint;
+export default fromEndPoint;

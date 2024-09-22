@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "../ui/button"
 import { useUserState } from "./LoginContext"
-
+import toEndPoint, { FetchData as RequestData } from "@/app/apis/fetchHooks"
+import { UserEndPoints } from "@/app/consts/url"
+import { useRouter } from "next/navigation"
 
 // フォームのスキーマを定義します
 const formSchema = z.object({
@@ -16,7 +18,7 @@ const formSchema = z.object({
 })
 
 export function LoginForm({ toClose }:{toClose:(to:boolean)=> void}) {
-
+  const router = useRouter();
   const {userName,isLogin,updateUser} = useUserState();
 
   // フォームを定義します
@@ -33,9 +35,25 @@ export function LoginForm({ toClose }:{toClose:(to:boolean)=> void}) {
     // フォームの値を使って何かをします
     console.log(values) // フォームの値をコンソールに表示します
     console.log(userName,isLogin);
-    if(updateUser) void updateUser('sakusaku',true);
-    void toClose(false);
-    
+
+    const login = async() => {
+      const user_email = values.email;
+      const user_passowrd = values.password;
+      const requestdata:RequestData = {endpoint:UserEndPoints.user_login,type:'POST',body:{user:{email:user_email,password:user_passowrd}}};
+      try {
+        const respones = await toEndPoint(requestdata);
+        
+        void updateUser?.(respones.username as string,true);
+        void toClose?.(false);
+        router.push('/dashboard');
+      
+      } catch(error) {
+        alert(error?.message);
+      }
+
+    };
+
+    void login();
   }
 
 
@@ -58,6 +76,7 @@ export function LoginForm({ toClose }:{toClose:(to:boolean)=> void}) {
       <div className="py-3 px-6 flex flex-col space-y-4">
       <Button type="submit" className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">ログイン</Button>
       <Button onClick={()=>toClose(false)} className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">閉じる</Button>
+      
       </div>
     </form>
   )

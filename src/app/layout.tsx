@@ -1,9 +1,11 @@
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { UserStateProvider } from "@/components/layout/LoginContext";
+import StoreProvider from "./redux/provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,11 +33,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <UserStateProvider>
-          <Header />
-          {children}
-          <Footer />
-        </UserStateProvider>
+          <StoreProvider>
+          <UserStateProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-grow pt-[200px]">
+              {children}
+              </main>
+              <Footer />
+            </div>
+            
+          </UserStateProvider>
+          </StoreProvider>
         
       </body>
     </html>

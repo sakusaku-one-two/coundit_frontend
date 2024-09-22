@@ -1,9 +1,11 @@
+"use client";
 //Redux toolkitかた必要な関数をインポート
 import { createSlice, createAsyncThunk,PayloadAction} from '@reduxjs/toolkit';
 //ＡＰＩ呼び出しに使用する関数をインポート
 import useEndPoint,{ FetchData } from '../apis/fetchHooks';
 import { ArticleEndPoints } from '../consts/url';
 import { Tag } from './tagsSlice';
+import { number } from 'zod';
 
 //記事の型を定義
 export interface Article {
@@ -28,6 +30,21 @@ const initialState:ArticlesState = {
     status: 'idle',//非同期処理の状態
     error: null //エラーメッセージ
 };
+
+
+// const toArticle = (response):Article => {
+//     return {
+//         id:response.id,
+//         slug:response.slug,
+//         title: response.title,
+//         description: response.description,
+//         favoritedCount: response.favoritedCount,
+//         user_id: response.user_id,
+//         tags:response.tags
+//     };
+// };
+
+
 
 
 //記事を取得する

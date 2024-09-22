@@ -3,6 +3,8 @@ import React, { SyntheticEvent,useState } from 'react'
 import { Button } from '../ui/button';
 import Login from './Login';
 import { useUserState } from './LoginContext';
+import { LoginDialog } from './loginDialog';
+
 
 const Header:React.FC = () => {
 
@@ -31,15 +33,16 @@ const Header:React.FC = () => {
         fixed 
         top-0 
         w-full
-        ml-auto'
+        h-24
+        z-50'
 
         >
         <h1 className='text-2xl'>coundit</h1>
         <nav>
             {/* flex => リストアイテムを横並びにする。space-x-4 => リストアイテム間のスペースを設定します。*/}
             <ul className='flex space-x-4 ml-auto'>  
-                <Button onClick={handleLogin}>ログイン</Button>
-                <Button onClick={handleLogout}>ログアウト</Button>
+                <LoginDialog/>
+                
                 <li><a href="/" className='hover:underline'>HOME</a></li>
                 <li><a href="/about" className='hover:underline'>about</a></li>
                 {
