@@ -7,6 +7,11 @@ import { ArticleEndPoints } from '../consts/url';
 import { Tag } from './tagsSlice';
 import { number } from 'zod';
 
+export interface User {
+    id :number;
+    username: string;
+};
+
 //記事の型を定義
 export interface Article {
     id:number;
@@ -14,7 +19,7 @@ export interface Article {
     title:string;
     description:string;
     favoritedCount:number;
-    user_id:number;
+    user:User;
     tags:Tag[];
 }
 

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import {ChangeEvent, SyntheticEvent, useState} from "react";
 import fromEndPoint,{FetchData as RequestData} from "@/app/apis/fetchHooks";
 import { useUserState } from "./LoginContext";
@@ -51,7 +52,7 @@ export function LoginDialog() {
 
         try {
             const response = await fromEndPoint(requestData);
-            updateUser(response.username,true);
+            updateUser?.(response.username,true);
             setIsOpne(false);
             roter.push('/dashboard');
         } catch(error) {
@@ -64,7 +65,7 @@ export function LoginDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpne}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button variant="outline">ログイン</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
@@ -75,6 +76,7 @@ export function LoginDialog() {
         </DialogHeader>
         <form onSubmit={onSubmit}>
         <div className="grid gap-4 py-4">
+         <Separator />
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="email" className="text-right">
               email
@@ -87,6 +89,7 @@ export function LoginDialog() {
               className="col-span-3"
             />
           </div>
+          <Separator />
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="password" className="text-right">
               password
@@ -99,6 +102,7 @@ export function LoginDialog() {
               className="col-span-3"
             />
           </div>
+          <Separator />
         </div>
         
         <DialogFooter>

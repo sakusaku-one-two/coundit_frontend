@@ -5,8 +5,7 @@ import { useEffect } from 'react';
 import { useSelector,useDispatch} from 'react-redux';
 import { RootState,AppDispatch } from './redux/store';
 import { fetchArticles } from './redux/articleSlice';
-import { stat } from 'fs';
-import { STATIC_STATUS_PAGES } from 'next/dist/shared/lib/constants';
+import ArticlesPage from './components/articlesPage';
 
 
 
@@ -29,16 +28,7 @@ export default function Home() {
 
   return (
    <div>
-      {
-        articles.map((article) => {
-          return (
-            <li key={article.id}>
-              {article.title}
-            </li>
-          )
-        })
-      }
-
+      <ArticlesPage articles={articles} />
    </div>
   );
 }

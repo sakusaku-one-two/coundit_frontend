@@ -5,14 +5,14 @@ import { useEffect } from 'react';
 import { useSelector,useDispatch} from 'react-redux';
 import {RootState, AppDispatch} from '../redux/store';
 import { fetchArticles } from '../redux/articleSlice';
-
+import ArticlesPage from '../components/articlesPage';
 
 
 
 const DashbordPage:React.FC = () => {
   const dispatch:AppDispatch = useDispatch();
-  const articles = useSelector((state:RootState) => state.articles.articles);
-  const status = useSelector((state:RootState) => state.articles.status);
+  const articles = useSelector((state:RootState) => state.articles.articles);//記事のリストを取得
+  const status = useSelector((state:RootState) => state.articles.status);//記事を取得のステータスを取得
 
   useEffect(() =>{
     if(status === 'idle') {
@@ -24,17 +24,10 @@ const DashbordPage:React.FC = () => {
   return (
     <div>
       <h1>記事一覧</h1>
-      {status === 'loading' && <p>loading....</p>}
-      {status === 'succeeded' && (
-        <ul>
-          {articles.map(article => (
-            <li key={article.id}>{article.title}</li>
-          ))}
-        </ul>
-      )}
-      {status === 'failed' && <p>Error loading articles</p>}
+      <ArticlesPage articles={articles} />
     </div>
   );
 };
 
 export default DashbordPage;
+
