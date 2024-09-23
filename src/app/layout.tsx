@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { UserStateProvider } from "@/components/layout/LoginContext";
 import StoreProvider from "./redux/provider";
+import { CurrentArticleProvider } from "./redux/context/currentArticleContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+          <CurrentArticleProvider>
           <StoreProvider>
           <UserStateProvider>
             <div className="min-h-screen flex flex-col">
@@ -45,7 +47,7 @@ export default function RootLayout({
             
           </UserStateProvider>
           </StoreProvider>
-        
+          </CurrentArticleProvider>
       </body>
     </html>
   );

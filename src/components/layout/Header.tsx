@@ -4,7 +4,8 @@ import { Button } from '../ui/button';
 import Login from './Login';
 import { useUserState } from './LoginContext';
 import { LoginDialog } from './loginDialog';
-
+import { CommandDemo } from './command';
+import { EditSheet } from './editSheet';
 
 const Header:React.FC = () => {
 
@@ -45,12 +46,15 @@ const Header:React.FC = () => {
                 
                 <li><a href="/" className='hover:underline'>HOME</a></li>
                 <li><a href="/about" className='hover:underline'>about</a></li>
+                <CommandDemo></CommandDemo>
+                <EditSheet/>
                 {
                     userName?<li>{userName}</li> : ""
                 }
             </ul>
         </nav>
         {openModal && <Login isOpen={openModal} onClose={()=> setOpen(false)}/>}
+        
     </header>
   )
 };
