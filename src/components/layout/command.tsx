@@ -19,14 +19,16 @@ import {
     CommandSeparator,
     CommandShortcut,
   } from "@/components/ui/command";
-  import { useRef, useEffect,useState } from "react";
+  import { useRef, useEffect,useState ,useContext} from "react";
   import { useSelector,useDispatch} from 'react-redux';
-  
+  import { CurrentArticleContext } from "@/app/redux/context/currentArticleContext";
   import { RootState,AppDispatch } from "@/app/redux/store";
   import ArticleRecord from "@/app/components/articleRecord";
   import { Article } from "@/app/redux/articleSlice";
 import ArticleDialog from "@/app/components/articleDialog";
-  
+import { tree } from "next/dist/build/templates/app-page";
+import { ArticleEdit } from "./recoilState";
+import { useRecoilState,RecoilRoot } from "recoil";
 const Row = ({
     article
 }:{article:Article}) => {
@@ -53,6 +55,10 @@ const Row = ({
 
 
   export function CommandDemo() {
+    const [EditArticleData,setArticleEditState] = useRecoilState(ArticleEdit);
+    const {isEdit,EditArticle} = EditArticleData;
+
+
     const [isOpen,setIsOpen] = useState<boolean>(false);
     const articles = useSelector((state:RootState) => state.articles.articles);//記事のリストを取得
     const status = useSelector((state:RootState) => state.articles.status);//記事を取得のステータスを取得
@@ -74,7 +80,16 @@ const Row = ({
         }
     };
 
+    const OnRowSelect = (article:Article) =>{
+        
+        setArticleEditState({
+          isEdit:true,
+          EditArticle:article as Article | null,
+        });
+    };
+
     return (
+      <RecoilRoot>
         <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
       <Command className="rounded-lg border shadow-md md:min-w-[450px]">
         <CommandInput placeholder="Type a command or search..." />
@@ -85,7 +100,7 @@ const Row = ({
                      
     
                     return (
-                        <CommandItem key={article.id}>
+                        <CommandItem key={article.id} onSelect={() => OnRowSelect(article)}>
                             <Row article={article}></Row>
                         </CommandItem>
                     );
@@ -124,6 +139,7 @@ const Row = ({
         </CommandList>
       </Command>
       </CommandDialog>
+      </RecoilRoot>
     )
   }
   

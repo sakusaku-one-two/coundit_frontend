@@ -14,7 +14,6 @@ import type { FC } from "react";
 import React from "react";
 import { useState } from "react";
 import { Article } from "../redux/articleSlice";
-
 import ArticleDialog from './articleDialog';
 
 const ArticleRecord:FC<{article:Article}> = ({ article }) =>{

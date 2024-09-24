@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "../ui/button"
 import { useUserState } from "./LoginContext"
-import toEndPoint, { FetchData as RequestData } from "@/app/apis/fetchHooks"
+import fromEndPoint, { FetchData as RequestData } from "@/app/apis/fetchHooks"
 import { UserEndPoints } from "@/app/consts/url"
 import { useRouter } from "next/navigation"
 
@@ -41,7 +41,7 @@ export function LoginForm({ toClose }:{toClose:(to:boolean)=> void}) {
       const user_passowrd = values.password;
       const requestdata:RequestData = {endpoint:UserEndPoints.user_login,type:'POST',body:{user:{email:user_email,password:user_passowrd}}};
       try {
-        const respones = await toEndPoint(requestdata);
+        const respones = await fromEndPoint(requestdata);
         
         void updateUser?.(respones.username as string,true);
         void toClose?.(false);

@@ -1,17 +1,21 @@
 "use client";
 
-import React, { createContext} from "react";
+import React, { createContext,useState} from "react";
 import { Article } from "../articleSlice";
-import { boolean } from "zod";
+import { boolean, set } from "zod";
 
 export interface CurrentArticle {
-    article : Article|null;
-    isOpen : boolean;
+    articleSheet : Article|null;
+    isOpenSheet : boolean;
+    setArticleSheet:(updateArticle:Article) =>void;
+    setIsOpenSheet:(updateOpen:boolean) =>void;
 }
 
 const initalState:CurrentArticle = {
-    article: null,
-    isOpen:false,
+    articleSheet: null,
+    isOpenSheet:false,
+    setArticleSheet:(updateArticle:Article)=>void 0,
+    setIsOpenSheet:(updateOpen:boolean)=>void 0,    
 };
 
 
@@ -20,8 +24,19 @@ export const CurrentArticleContext = createContext<CurrentArticle>(initalState);
 export const CurrentArticleProvider = ({ children }: {
     children:React.ReactNode
 }) =>{
+
+    const [artilceSheet,setArticleSheet] = useState<Article|null>(null);
+    const [isOpenSheet,setIsOpenSheet] = useState<boolean>(false);
+
+
+ 
     return (
-        <CurrentArticleContext.Provider value={initalState}>
+        <CurrentArticleContext.Provider value={{
+            articleSheet:null,
+            isOpenSheet:false,
+            setArticleSheet:setArticleSheet,
+            setIsOpenSheet:setIsOpenSheet,
+        }}>
             {children}
         </CurrentArticleContext.Provider>
     );

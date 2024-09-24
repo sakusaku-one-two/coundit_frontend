@@ -13,6 +13,8 @@ import {
 import { Cross2Icon } from "@radix-ui/react-icons";
 import React from "react";
 import { Article } from "../redux/articleSlice";
+import { useRecoilState } from "recoil";
+import { ArticleEdit } from "@/components/layout/recoilState";
 
 interface ArticleProps {
     article: Article; // 記事のデータ
@@ -22,9 +24,10 @@ interface ArticleProps {
 
 const ArticleDialog: React.FC<ArticleProps> = ({ article, setIsOpen, isOpen }) => {
     // ボタンがクリックされたときの処理
+    const [ArticleEditState,setArticleEditState] = useRecoilState(ArticleEdit);
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        alert("クリックされました"); // アラートを表示
+        setArticleEditState({isEdit:true,EditArticle:article});
         setIsOpen(false); // ダイアログを閉じる
     };
 
