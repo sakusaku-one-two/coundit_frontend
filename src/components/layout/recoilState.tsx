@@ -9,7 +9,7 @@ import {
   } from 'recoil';
   
 
-  export const ArticleEdit = atom({
+  export const ArticleEdit = atom<{isEdit:boolean,EditArticle:Article|undefined}>({
     key: 'ArticleEdit', // unique ID (with respect to other atoms/selectors)
     default: {
         isEdit:false,

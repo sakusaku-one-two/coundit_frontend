@@ -32,6 +32,7 @@ export const UserEndPoints = {
     user_logout: "user/logout", // ログアウト
     user_article_delete: "user/article/delete", // 記事の削除
     user_article_create: "user/article/create", // 記事の作成
+    user_article_update: "user/article/update",//ユーザーの記事の更新処理
     user_articles: "user/articles" // 記事の取得
 } as const;
 

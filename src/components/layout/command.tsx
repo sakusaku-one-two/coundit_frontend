@@ -35,6 +35,7 @@ const Row = ({
     const [dOpen,setDopne] = useState<boolean>(false);
 
     const handleOpen = (e) =>{
+
         setDopne((open) => !open);
     };
 
@@ -81,10 +82,10 @@ const Row = ({
     };
 
     const OnRowSelect = (article:Article) =>{
-        
+        alert(article.id);
         setArticleEditState({
           isEdit:true,
-          EditArticle:article as Article | null,
+          EditArticle:article as Article | undefined,
         });
     };
 

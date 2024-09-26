@@ -12,26 +12,32 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { CurrentArticleContext } from "@/app/redux/context/currentArticleContext";
+} from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
 import { ArticleEdit} from "./recoilState";
 import { useRecoilState } from "recoil";
+import EditForm from "./editForm";
 
 
 
 
 export function EditSheet() {
     const [ArticleEditState,setArticleEditState] = useRecoilState(ArticleEdit);
-    const {isEdit,EditArticle} = ArticleEditState;
+    const {isEdit} = ArticleEditState;
+    
+
+
+  
+    
+    // const onSave = (e:SyntheticEvent) => {
+    //   e.preventDefault(); //サーバーに再度ページの取得をさせないため
+      
+    //  setArticleEditState({isEdit:false,EditArticle:undefined});
+    // };
 
     
-    const onSave = (e:SyntheticEvent) => {
-      e.preventDefault(); //サーバーに再度ページの取得をさせないため
-      
-     setArticleEditState({isEdit:false,EditArticle:null});
-    };
     const setOpenFlag = (flag:boolean) =>{
-      setArticleEditState({isEdit:flag,EditArticle:null});
+      setArticleEditState((prev) => ({...prev, isEdit:flag}));
     };
 
   return (
@@ -40,32 +46,7 @@ export function EditSheet() {
         <Button variant="outline">Open</Button>
       </SheetTrigger>
       <SheetContent className="bg-white">
-        <SheetHeader>
-          <SheetTitle>記事の編集</SheetTitle>
-          <SheetDescription>
-              編集してください。
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              タイトル
-            </Label>
-            <Input id="title" value={EditArticle?.title} className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              説明
-            </Label>
-            <Input id="description" value={EditArticle?.description} className="col-span-3" />
-          </div>
-
-        </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit" onSubmit={() => setOpenFlag(!isEdit)}>Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
+        <EditForm />
       </SheetContent>
     </Sheet>
   )

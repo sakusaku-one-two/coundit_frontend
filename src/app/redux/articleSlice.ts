@@ -3,7 +3,7 @@
 import { createSlice, createAsyncThunk,PayloadAction} from '@reduxjs/toolkit';
 //ＡＰＩ呼び出しに使用する関数をインポート
 import useEndPoint,{ FetchData } from '../apis/fetchHooks';
-import { ArticleEndPoints } from '../consts/url';
+import GetUrl, { ArticleEndPoints, UserEndPoints } from '../consts/url';
 import { Tag } from './tagsSlice';
 import { number } from 'zod';
 
@@ -18,6 +18,7 @@ export interface Article {
     slug:string| '';
     title:string;
     description:string;
+    body:string;
     favoritedCount:number;
     user:User;
     tags:Tag[];
@@ -60,16 +61,46 @@ export const fetchArticles = createAsyncThunk<Article[]>('articles/fetchArticles
 });
 
 //記事を作製する非同期関数を定義
-export const createArticles = createAsyncThunk<Article,Article>('articles/createArticle',async (newArticle) => {
+export const createArticles = createAsyncThunk<Article,Article,{rejectValue:string}>('articles/createArticle',async (newArticle) => {
     const fetchData:FetchData = {endpoint:ArticleEndPoints.articles_create,type:'POST',body:newArticle};
-    const response = await useEndPoint(fetchData);
-    return response;
+    
+    try {
+        await useEndPoint(fetchData);
+        return newArticle;
+    } catch(error) {
+        return '';
+    };
+
 });
 
-export const updateArticle = createAsyncThunk<Article,Article>('articles/updateArticle',async (updateArticle) => {
+export const updateArticle = createAsyncThunk<Article,Article,{rejectValue:string}>('articles/updateArticle',async (updateArticle) => {
     const fetchData:FetchData = {endpoint:ArticleEndPoints.articles_update,type:'PUT',body:updateArticle};
-    const response = await useEndPoint(fetchData);
-    return response;
+    try {
+        await useEndPoint(fetchData);
+        return updateArticle;
+    } catch(error) {
+        return '';
+    };
+});
+
+export const deleteAritcle = createAsyncThunk<Article,Article,{rejectValue:string}>('articles/deleteArticle',async( delelteAritcle) =>{
+    const articleId:number = delelteAritcle.id;
+
+    try {
+        const response = await fetch(GetUrl(UserEndPoints.user_article_delete),{
+            method:"DELETE",
+            headers:{
+                Article_ID : articleId.toString()
+            },
+            credentials: 'include',//cookieを含める設定
+        });
+
+        if (response.ok) return deleteAritcle;
+
+        throw new Error("削除します。");
+    } catch(error ) {
+        return delelteAritcle;
+    }
 });
 
 //記事のスライスを作製
@@ -118,9 +149,26 @@ const articlesSlice = createSlice({
                 }
             
             })
-            .addCase(updateArticle.rejected,(state,action) => {
+            .addCase(deleteAritcle.rejected,(state,action) => {
                 state.status = 'failed';
                 state.error = action.error.message || 'Failed to update article';//エラーメッセージを更新
+            })
+            .addCase(deleteAritcle.rejected,(state,action) => {
+                state.status = 'failed';//作成の失敗
+                state.error = action.error.message || 'Failed to create article';//エラーメッセージを更新
+            })
+            .addCase(deleteAritcle.pending,(state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteAritcle.fulfilled,(state,action:PayloadAction<Article>) => {
+                state.status = 'succeeded';
+                const targetArticle:Article = action.payload;
+                state.articles = state.articles.filter((article) => article.id !== targetArticle.id);
+            
+            })
+            .addCase(deleteAritcle.rejected,(state,action) => {
+                state.status = 'failed';
+                state.error = action.error.message || '削除失敗しました';//エラーメッセージを更新
             });
     }
 });
