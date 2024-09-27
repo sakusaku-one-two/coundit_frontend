@@ -75,11 +75,12 @@ export const createArticles = createAsyncThunk<Article,Article,{rejectValue:stri
 
 export const updateArticle = createAsyncThunk<Article,Article,{rejectValue:string}>('articles/updateArticle',async (updateArticle) => {
     const fetchData:FetchData = {endpoint:ArticleEndPoints.articles_update,type:'PUT',body:updateArticle};
+    alert(updateArticle.title);
     try {
         await useEndPoint(fetchData);
         return updateArticle;
     } catch(error) {
-        return '';
+        throw error;
     };
 });
 
@@ -99,8 +100,8 @@ export const deleteAritcle = createAsyncThunk<Article,Article,{rejectValue:strin
 
         throw new Error("削除します。");
     } catch(error ) {
-        return delelteAritcle;
-    }
+        throw error;
+    };
 });
 
 //記事のスライスを作製
@@ -150,10 +151,6 @@ const articlesSlice = createSlice({
             
             })
             .addCase(deleteAritcle.rejected,(state,action) => {
-                state.status = 'failed';
-                state.error = action.error.message || 'Failed to update article';//エラーメッセージを更新
-            })
-            .addCase(deleteAritcle.rejected,(state,action) => {
                 state.status = 'failed';//作成の失敗
                 state.error = action.error.message || 'Failed to create article';//エラーメッセージを更新
             })
@@ -165,10 +162,6 @@ const articlesSlice = createSlice({
                 const targetArticle:Article = action.payload;
                 state.articles = state.articles.filter((article) => article.id !== targetArticle.id);
             
-            })
-            .addCase(deleteAritcle.rejected,(state,action) => {
-                state.status = 'failed';
-                state.error = action.error.message || '削除失敗しました';//エラーメッセージを更新
             });
     }
 });

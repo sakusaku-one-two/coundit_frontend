@@ -6,6 +6,7 @@ import { useUserState } from './LoginContext';
 import { LoginDialog } from './loginDialog';
 import { CommandDemo } from './command';
 import { EditSheet } from './editSheet';
+import { CreateSheet } from './createSheet';
 
 const Header:React.FC = () => {
 
@@ -47,6 +48,7 @@ const Header:React.FC = () => {
                 <li><a href="/" className='hover:underline'>HOME</a></li>
                 <li><a href="/about" className='hover:underline'>about</a></li>
                 <CommandDemo></CommandDemo>
+                <CreateSheet></CreateSheet>
                 <EditSheet/>
                 {
                     userName?<li>{userName}</li> : ""

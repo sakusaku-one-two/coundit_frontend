@@ -24,6 +24,15 @@ const serverUrl:string = 'http://localhost:3000/api';
 //     post "tags/insert",to: "tags#insert_article_tag" #記事とタグを結びつける
 //     post "tags/create",to: "tags#create_tag" #タグの削除
 
+    // post "user/registration", to: "users#registration" #ユーザー登録
+    // post "user/login", to: "users#login"#ユーザーのログイン（emial,password)
+    // post "user/logout", to: "users#logout"#ログアウト
+    // delete "user/article/delete",to: "users#article_delete"#headerにarticle-idを格納
+    // post "user/article/create",to: "users#article_create"
+    // get "user/articles", to: "users#articles"
+    // put "user/article/article_update",to: "users#article_update"
+
+
 
 // ユーザー関連のエンドポイント
 export const UserEndPoints = {
@@ -32,7 +41,7 @@ export const UserEndPoints = {
     user_logout: "user/logout", // ログアウト
     user_article_delete: "user/article/delete", // 記事の削除
     user_article_create: "user/article/create", // 記事の作成
-    user_article_update: "user/article/update",//ユーザーの記事の更新処理
+    user_article_update: "user/article/article_update",//ユーザーの記事の更新処理
     user_articles: "user/articles" // 記事の取得
 } as const;
 

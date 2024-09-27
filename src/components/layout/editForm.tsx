@@ -24,7 +24,7 @@ import { RootState,AppDispatch } from './redux/store';
 
 const EditForm:FC = () => {
   const dispathc:AppDispatch = useDispatch();
-  const articles = useSelector((state:RootState) => state.articles.articles);
+ 
   const status =  useSelector((state:RootState) => state.articles.status);
 
 
@@ -50,7 +50,7 @@ const EditForm:FC = () => {
         <SheetHeader> 
           <SheetTitle>記事の編集</SheetTitle>
           <SheetDescription>
-              編集してください。
+              編集してください。 Reduxの状態: ({status})
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
@@ -74,14 +74,22 @@ const EditForm:FC = () => {
           </div>
           <div>
               <Label htmlFor="body" className="text-right">
-                タグ
+                {
+                  EditArticle?.tags.map((tag) => {
+                    return (
+                      <div key={tag.id}>
+                        {tag.name}
+                      </div>
+                    )
+                  })
+                }
               </Label>
 
           </div>
         </div>
         <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit" onSubmit={() => setOpenFlag(!isEdit)}>Save changes</Button>
+          <SheetClose asChild onClick={onSend}>
+            <Button type="submit">Save changes</Button>
           </SheetClose>
         </SheetFooter>
 

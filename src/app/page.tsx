@@ -6,6 +6,7 @@ import { useSelector,useDispatch} from 'react-redux';
 import { RootState,AppDispatch } from './redux/store';
 import { fetchArticles } from './redux/articleSlice';
 import ArticlesPage from './components/articlesPage';
+import { fetchTags } from './redux/tagsSlice';
 
 
 
@@ -20,6 +21,7 @@ export default function Home() {
   useEffect(() => {
     if (status === 'idle'){ //まだ一回もリクエストが送らられてreduxにデータがない場合にリクエストが送信されて更新される。
       dispatch(fetchArticles());
+      dispatch(fetchTags());
     }
 
   },[status,dispatch]);
